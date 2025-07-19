@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.O. ART</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1f1f1f;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f0f0f0;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #c0c0c0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #666, #999);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(to bottom, #242424 0%, #1a1a1a 100%),
+                        url('https://res.cloudinary.com/dkp0t9iap/image/upload/v1752838159/Untitled_Artwork_2_1_au3rwk.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+            padding-bottom: 50px;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+        }
+
+        /* Floating center image */
+        .floating-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            max-width: 400px;
+            width: 80%;
+            height: auto;
+            opacity: 0.9;
+            animation: floatAnimation 6s ease-in-out infinite;
+        }
+
+        @keyframes floatAnimation {
+            0%, 100% {
+                transform: translate(-50%, -50%) translateY(0px);
+            }
+            50% {
+                transform: translate(-50%, -50%) translateY(-15px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #444, #555);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 1px solid #555;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #555, #666);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #2a2a2a, #333);
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #333, #3a3a3a);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+        }
+
+        /* Featured Collections */
+        .featured {
+            padding: 0;
+            background: #1f1f1f;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .collections-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 3rem;
+            height: 100%;
+        }
+
+        .collection-card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #333 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-color: #666;
+        }
+
+        .collection-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(45deg, #3a3a3a, #4a4a4a);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .collection-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .collection-card p {
+            color: #b0b0b0;
+            margin-bottom: 1rem;
+        }
+
+        /* About Preview */
+        .about-preview {
+            padding: 5rem 0;
+            background: #242424;
+        }
+
+        .about-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .about-text h2 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .about-image {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(45deg, #3a3a3a, #4a4a4a);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p, .footer-section a {
+            color: #b0b0b0;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: #ffffff;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            color: #888;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+            
+            .hero {
+                padding-bottom: 30px;
+            }
+            
+            .floating-image {
+                max-width: 300px;
+                width: 70%;
+            }
+            
+            .about-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            /* Mobile Navigation */
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+            
+            /* Collections Section Mobile */
+            #collections {
+                padding: 60px 0 !important;
+            }
+            
+            #collections table {
+                width: 100%;
+            }
+            
+            #collections tr {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            #collections td {
+                padding: 20px !important;
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .collection-img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 350px !important;
+            }
+            
+            .collection-label {
+                font-size: 1.4rem !important;
+                letter-spacing: 2px !important;
+                padding: 15px 20px !important;
+            }
+            
+            /* Touch-friendly buttons */
+            .btn {
+                padding: 15px 35px;
+                font-size: 1rem;
+                min-height: 44px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .collection-label {
+                font-size: 1.2rem !important;
+                letter-spacing: 1px !important;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .collection-link:active .collection-img {
+                transform: translateY(-8px) scale(1.02);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 12px 25px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+            
+            .collection-link:active .collection-label {
+                color: #ffffff;
+                transform: translateY(-3px) scale(1.03);
+                text-shadow: 0 3px 10px rgba(0, 0, 0, 0.8), 0 1px 5px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        /* Decorative elements */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body id="top">
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">MARTIN OOSTHUIZEN</a>
+            <ul class="nav-links">
+                <li><a href="#top">Home</a></li>
+                <li><a href="#collections">Collections</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/v1752838384/Untitled_Artwork_3_slsaby.png" 
+             alt="Featured Artwork" 
+             class="floating-image">
+        <div class="hero-content">
+            <div class="hero-buttons">
+                <a href="#collections" class="btn btn-primary">Explore Collections</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="collections" style="padding: 100px 0; background: #181818; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <table style="border-collapse: collapse;">
+            <tr>
+                <td style="padding: 40px;">
+                    <a href="collections/ecstasy-and-doom.html" class="collection-link" style="display: block; text-decoration: none; transition: all 0.4s ease;">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_400,h_400,c_fit,q_90/v1752837538/IMG_0407_2_1_yhgnao.jpg" 
+                             class="collection-img"
+                             style="width: 400px; height: 400px; object-fit: cover; display: block; border-radius: 8px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.3); transition: all 0.4s ease;" 
+                             alt="ECSTASY AND DOOM">
+                        <div class="collection-label" style="background: transparent; color: #d0d0d0; padding: 20px 30px; text-align: center; font-size: 1.8rem; font-weight: 300; letter-spacing: 3px; margin-top: 25px; border: none; transition: all 0.3s ease; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);">ECSTASY AND DOOM</div>
+                    </a>
+                </td>
+                <td style="padding: 40px;">
+                    <a href="collections/lovers.html" class="collection-link" style="display: block; text-decoration: none; transition: all 0.4s ease;">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_400,h_400,c_fit,q_90/v1752837528/IMG_0394_1_hyyat4.jpg" 
+                             class="collection-img"
+                             style="width: 400px; height: 400px; object-fit: cover; display: block; border-radius: 8px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.3); transition: all 0.4s ease;" 
+                             alt="LOVERS">
+                        <div class="collection-label" style="background: transparent; color: #d0d0d0; padding: 20px 30px; text-align: center; font-size: 1.8rem; font-weight: 300; letter-spacing: 3px; margin-top: 25px; border: none; transition: all 0.3s ease; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);">LOVERS</div>
+                    </a>
+                </td>
+                <td style="padding: 40px;">
+                    <a href="collections/vanitas.html" class="collection-link" style="display: block; text-decoration: none; transition: all 0.4s ease;">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_400,h_400,c_fit,q_90/v1752837544/IMG_0420_2_1_iofywn.jpg" 
+                             class="collection-img"
+                             style="width: 400px; height: 400px; object-fit: cover; display: block; border-radius: 8px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.3); transition: all 0.4s ease;" 
+                             alt="VANITAS">
+                        <div class="collection-label" style="background: transparent; color: #d0d0d0; padding: 20px 30px; text-align: center; font-size: 1.8rem; font-weight: 300; letter-spacing: 3px; margin-top: 25px; border: none; transition: all 0.3s ease; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);">VANITAS</div>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; Martin Oosthuizen</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Handle navigation from other pages with hash
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const target = document.querySelector(window.location.hash);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }, 100);
+            }
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(26, 26, 26, 0.98)';
+            } else {
+                header.style.background = 'rgba(26, 26, 26, 0.95)';
+            }
+        });
+
+        // Add hover effects to collection images
+        document.querySelectorAll('.collection-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                const img = this.querySelector('.collection-img');
+                const label = this.querySelector('.collection-label');
+                
+                // Scale up and enhance shadow on hover
+                img.style.transform = 'translateY(-12px) scale(1.02)';
+                img.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.6), 0 15px 30px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.3)';
+                
+                // Enhance label on hover
+                label.style.color = '#ffffff';
+                label.style.transform = 'translateY(-5px) scale(1.05)';
+                label.style.textShadow = '0 4px 12px rgba(0, 0, 0, 0.8), 0 2px 6px rgba(255, 255, 255, 0.1)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                const img = this.querySelector('.collection-img');
+                const label = this.querySelector('.collection-label');
+                
+                // Return to original state
+                img.style.transform = 'translateY(0) scale(1)';
+                img.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(0, 0, 0, 0.3)';
+                
+                // Return label to original state
+                label.style.color = '#d0d0d0';
+                label.style.transform = 'translateY(0) scale(1)';
+                label.style.textShadow = '0 2px 8px rgba(0, 0, 0, 0.7)';
+            });
+        });
+    </script>
+</body>
+</html>

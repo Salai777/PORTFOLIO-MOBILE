@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VANITAS Collection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1f1f1f;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #f0f0f0;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #c0c0c0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #666, #999);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Collection Header */
+        .collection-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(to bottom, #242424 0%, #1a1a1a 100%);
+            position: relative;
+            box-shadow: inset 0 -20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .collection-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(0, 0, 0, 0.15) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .collection-title {
+            font-size: 4.5rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            text-shadow: 
+                0 4px 8px rgba(0,0,0,0.5),
+                0 8px 16px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .collection-subtitle {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Back button */
+        .back-button {
+            position: absolute;
+            top: 50%;
+            left: 40px;
+            transform: translateY(-50%);
+            padding: 10px 20px;
+            background: rgba(68, 68, 68, 0.8);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(85, 85, 85, 0.9);
+            transform: translateY(-50%) translateX(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Gallery */
+        .gallery {
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .gallery::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.05) 20%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                rgba(255, 255, 255, 0.05) 80%, 
+                transparent 100%);
+            z-index: 1;
+        }
+
+        .gallery::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 10%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.05) 20%, 
+                rgba(255, 255, 255, 0.1) 50%, 
+                rgba(255, 255, 255, 0.05) 80%, 
+                transparent 100%);
+            z-index: 1;
+        }
+
+        /* Two Column Grid Layout */
+        .artworks-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .artwork-row {
+            margin-bottom: 8rem;
+        }
+
+        .artwork-item {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+            position: relative;
+        }
+
+        .artwork-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .artwork-item::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: -20px;
+            bottom: -20px;
+            background: 
+                radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, transparent 70%),
+                radial-gradient(ellipse 120% 80% at center, rgba(0, 0, 0, 0.2) 0%, transparent 60%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .artwork-item:hover::before {
+            opacity: 1;
+        }
+
+        .artwork-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 10px 20px rgba(0, 0, 0, 0.3);
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: none;
+        }
+
+        .artwork-item:hover .artwork-image {
+            transform: scale(1.02) translateY(-12px);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.7),
+                0 18px 35px rgba(0, 0, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .artwork-image:hover {
+            transform: scale(1.02) translateY(-12px);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.7),
+                0 18px 35px rgba(0, 0, 0, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Invisible overlay for click protection */
+        .artwork-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
+            cursor: pointer;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, rgba(50, 50, 50, 0.95), rgba(35, 35, 35, 0.95));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            z-index: 1500;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: linear-gradient(145deg, rgba(65, 65, 65, 0.95), rgba(45, 45, 45, 0.95));
+            transform: translateY(-50%) translateX(-5px) scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .back-to-top::before {
+            content: '↑';
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal for enlarged images */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 95vw;
+            max-height: 95vh;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .close:hover {
+            color: #ccc;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .collection-title {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+            
+            .collection-subtitle {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+            
+            /* Hide back-to-top button on mobile */
+            .back-to-top {
+                display: none !important;
+            }
+            
+            /* Mobile Navigation */
+            .nav-links {
+                gap: 1.5rem;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+            
+            /* Grid Layout Mobile */
+            .artworks-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 0 20px;
+            }
+            
+            .artwork-row {
+                margin-bottom: 3rem;
+            }
+            
+            .artwork-image {
+                width: 100%;
+                height: auto;
+            }
+            
+            /* Modal */
+            .modal-content {
+                max-width: 95vw;
+                max-height: 95vh;
+                margin: 10px;
+            }
+            
+            .close {
+                top: 10px;
+                right: 15px;
+                font-size: 30px;
+            }
+        }
+        
+        /* Hide back-to-top button on tablets */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .back-to-top {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .collection-title {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+            }
+            
+            .artworks-grid {
+                gap: 1.5rem;
+                padding: 0 15px;
+            }
+            
+            .artwork-row {
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Touch device optimizations */
+        @media (hover: none) {
+            .artwork-image:active {
+                transform: scale(1.01) translateY(-8px);
+                box-shadow: 
+                    0 30px 60px rgba(0, 0, 0, 0.7),
+                    0 15px 30px rgba(0, 0, 0, 0.5),
+                    0 6px 15px rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        /* Scroll progress indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #666, #999);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <div class="back-to-top" id="backToTop"></div>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">MARTIN OOSTHUIZEN</a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#collections">Collections</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="collection-header">
+            <div class="container">
+                <h1 class="collection-title">VANITAS</h1>
+                <p class="collection-subtitle">Inspired in part by still life Dutch paintings, the collection features reimagined compositions that wish to invoke enduring sentiments</p>
+            </div>
+        </section>
+
+        <section class="gallery">
+            <div class="container">
+                <div class="artworks-grid">
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752830764/IMG_0411_1_gmw0i4.jpg" 
+                             alt="VANITAS 1" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830764/IMG_0411_1_gmw0i4.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830764/IMG_0411_1_gmw0i4.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752830771/IMG_0412_1_sanbox.jpg" 
+                             alt="VANITAS 2" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830771/IMG_0412_1_sanbox.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830771/IMG_0412_1_sanbox.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752831168/IMG_0415_1_k2stkz.jpg" 
+                             alt="VANITAS 3" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752831168/IMG_0415_1_k2stkz.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752831168/IMG_0415_1_k2stkz.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752830791/IMG_0414_1_t1qkwh.jpg" 
+                             alt="VANITAS 4" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830791/IMG_0414_1_t1qkwh.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830791/IMG_0414_1_t1qkwh.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752830782/IMG_0413_1_rcdqrw.jpg" 
+                             alt="VANITAS 5" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830782/IMG_0413_1_rcdqrw.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752830782/IMG_0413_1_rcdqrw.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752831214/IMG_0416_1_apxkw9.jpg" 
+                             alt="VANITAS 6" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752831214/IMG_0416_1_apxkw9.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752831214/IMG_0416_1_apxkw9.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752831222/IMG_0417_1_kt2woh.jpg" 
+                             alt="VANITAS 7" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752831222/IMG_0417_1_kt2woh.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752831222/IMG_0417_1_kt2woh.jpg"></div>
+                    </div>
+
+                    <div class="artwork-item">
+                        <img src="https://res.cloudinary.com/dkp0t9iap/image/upload/w_700,h_700,c_fit,q_90/v1752833403/IMG_0420_1_gdfrf7.jpg" 
+                             alt="VANITAS 8" 
+                             class="artwork-image"
+                             data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752833403/IMG_0420_1_gdfrf7.jpg">
+                        <div class="artwork-overlay" data-full="https://res.cloudinary.com/dkp0t9iap/image/upload/w_1800,h_1800,c_fit,q_95/v1752833403/IMG_0420_1_gdfrf7.jpg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for enlarged images -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content modal-image" id="modalImage">
+    </div>
+
+    <script>
+        // Image protection and copyright measures
+        document.addEventListener('DOMContentLoaded', function() {
+            // Disable right-click context menu
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            // Disable common keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Ctrl+S
+                if (e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+                    (e.ctrlKey && e.keyCode === 85) ||
+                    (e.ctrlKey && e.keyCode === 83)) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Disable text selection
+            document.onselectstart = function() {
+                return false;
+            };
+
+            // Console warning for copyright
+            console.log('%c⚠️ COPYRIGHT NOTICE', 'color: red; font-size: 20px; font-weight: bold;');
+            console.log('%cAll images are protected by copyright law. Unauthorized use, reproduction, or distribution is strictly prohibited.', 'color: orange; font-size: 14px;');
+            console.log('%c© Martin Oosthuizen - All Rights Reserved', 'color: red; font-size: 12px;');
+
+            // Detect DevTools opening attempt
+            let devtools = {open: false, orientation: null};
+            setInterval(function() {
+                if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        console.clear();
+                        console.log('%c🚫 DEVELOPER TOOLS DETECTED', 'color: red; font-size: 24px; font-weight: bold;');
+                        console.log('%cAccessing source code to download images may violate copyright law.', 'color: orange; font-size: 16px;');
+                        console.log('%cPlease respect the artist\'s intellectual property rights.', 'color: red; font-size: 14px;');
+                    }
+                }
+            }, 500);
+        });
+
+        // Update modal functionality to work with overlays
+        document.querySelectorAll('.artwork-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function() {
+                if (modal && modalImg) {
+                    modal.style.display = 'block';
+                    modalImg.src = this.getAttribute('data-full');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Back to top functionality with scroll detection
+        const backToTop = document.getElementById('backToTop');
+        
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            if (scrollProgress) {
+                const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                scrollProgress.style.width = scrolled + '%';
+            }
+        });
+
+        // Scroll reveal animation
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.artwork-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const closeBtn = document.querySelector('.close');
+
+        // Close modal
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeModal);
+        }
+        
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+
+        function closeModal() {
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (header) {
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(26, 26, 26, 0.98)';
+                } else {
+                    header.style.background = 'rgba(26, 26, 26, 0.95)';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
