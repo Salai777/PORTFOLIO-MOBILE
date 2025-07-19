@@ -346,25 +346,25 @@
         }
 
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            max-width: 95vw;
-            max-height: 95vh;
-            border-radius: 8px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
 
         .modal-image {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 90vw;
+            max-height: 90vh;
             width: auto;
             height: auto;
-            border-radius: 8px;
             object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .close {
@@ -380,6 +380,18 @@
 
         .close:hover {
             color: #ccc;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid #333;
+        }
+
+        .footer-bottom {
+            color: #888;
         }
 
         /* Responsive */
@@ -426,9 +438,12 @@
             
             /* Modal */
             .modal-content {
+                padding: 10px;
+            }
+            
+            .modal-image {
                 max-width: 95vw;
-                max-height: 95vh;
-                margin: 10px;
+                max-height: 85vh;
             }
             
             .close {
@@ -512,7 +527,7 @@
         <section class="collection-header">
             <div class="container">
                 <h1 class="collection-title">VANITAS</h1>
-                <p class="collection-subtitle">Inspired in part by Dutch still life paintings, the collection features reimagined compositions that wish to invoke enduring sentiments</p>
+                <p class="collection-subtitle">Inspired in part by still life Dutch paintings, the collection features reimagined compositions that wish to invoke enduring sentiments</p>
             </div>
         </section>
 
@@ -586,6 +601,14 @@
             </div>
         </section>
     </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; Martin Oosthuizen</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Modal for enlarged images -->
     <div id="imageModal" class="modal">
